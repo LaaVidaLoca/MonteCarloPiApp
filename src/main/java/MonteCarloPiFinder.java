@@ -8,17 +8,13 @@ public class MonteCarloPiFinder {
         this.pointsCount = pointsCount;
     }
 
-    public double getPi() {
+    public void addInternalPointsCount(Holder holder) throws InterruptedException {
         Random random = new Random();
         int message = pointsCount / 10;
-        double counter = 0;
         for (int i = 0; i < pointsCount; i++) {
-            if ((i+1) % message == 0) {
-                System.out.println("Прогресс: " + ((float) (i+1)/pointsCount*100 + "%"));
-            }
+            if (Thread.interrupted()) throw new InterruptedException();
             if (Math.pow(random.nextDouble(),2)
-                    + Math.pow(random.nextDouble(),2) <= 1) counter++;
+                    + Math.pow(random.nextDouble(),2) <= 1) holder.increment();
         }
-        return counter / pointsCount * 4;
     }
 }
