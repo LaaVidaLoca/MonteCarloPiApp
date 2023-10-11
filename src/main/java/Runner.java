@@ -1,3 +1,6 @@
+import Holder.EagerHolder;
+import Holder.LazyHolder;
+
 public class Runner {
 
     private static final int TASK_COUNT = 5;

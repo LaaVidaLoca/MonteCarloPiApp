@@ -1,3 +1,5 @@
+package Holder;
+
 public class LazyHolder extends Holder{
 
     private static volatile LazyHolder instance;
