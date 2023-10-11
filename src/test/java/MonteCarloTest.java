@@ -1,19 +1,18 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 public class MonteCarloTest {
 
-    public static final double DELTA_1 = 0.001;
-    public static final double DELTA_2 = 0.01;
+    public static final double DELTA = 0.01;
+    private static final int TASK_COUNT = 5;
+    private static final int POINTS_COUNT = 10000000;
 
-
-   @RepeatedTest(3)
-    public void test1() {
-
-    }
-
-    @RepeatedTest(3)
-    public void test2() {
-
+   @Test
+    public void test() {
+       ThreadController controller1 = new ThreadController(TASK_COUNT, POINTS_COUNT, LazyHolder.getInstance());
+       controller1.startTasks();
+       ThreadController controller2 = new ThreadController(TASK_COUNT, POINTS_COUNT, EagerHolder.INSTANCE);
+       controller2.startTasks();
+       Assertions.assertEquals(controller1.getResult(),controller2.getResult(), DELTA);
     }
 }

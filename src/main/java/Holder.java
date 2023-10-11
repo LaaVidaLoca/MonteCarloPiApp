@@ -1,15 +1,11 @@
 public class Holder {
 
-    private Integer body = 0;
-    public void increment() {
-        synchronized (body) {
-            body++;
-        }
+    private volatile Integer body = 0;
+    public synchronized void increment() {
+        body++;
     }
-    public int getResult() {
-        synchronized (body) {
-            return body;
-        }
+    public synchronized int getResult() {
+        return body;
     }
 
 }
