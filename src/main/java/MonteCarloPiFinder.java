@@ -14,7 +14,7 @@ public class MonteCarloPiFinder {
         Random random = new Random();
         int message = pointsCount / 10;
         for (int i = 0; i < pointsCount; i++) {
-            if (Thread.interrupted()) throw new InterruptedException();
+            if (Thread.interrupted()) throw new InterruptedException(Thread.currentThread().getName());
             if (Math.pow(random.nextDouble(),2)
                     + Math.pow(random.nextDouble(),2) <= 1) holder.increment();
         }

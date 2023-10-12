@@ -27,7 +27,7 @@ public class ThreadController {
                     try {
                         finder.addInternalPointsCount(holder);
                     } catch (InterruptedException e) {
-                        System.out.println("тут");
+                        System.out.println(e.getMessage() + "прерван");
                     }
                 });
             }
@@ -40,7 +40,7 @@ public class ThreadController {
         try {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
         } catch (InterruptedException e) {
-            System.out.println("тут 2");
+            System.out.println("Основной поток прерван");
         }
         return (double) holder.getResult() / pointsCount * 4;
     }
