@@ -5,7 +5,7 @@ import java.util.Random;
 public class MonteCarloPiFinder {
 
     private final int pointsCount;
-    private String poolName;
+    private final String poolName;
 
     public MonteCarloPiFinder(int pointsCount, String poolName) {
         this.pointsCount = pointsCount;
