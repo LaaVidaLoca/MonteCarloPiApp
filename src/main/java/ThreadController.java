@@ -11,11 +11,14 @@ public class ThreadController {
     private final Holder holder;
     private final ExecutorService executorService;
 
-    public ThreadController(int tasksCount, int pointsCount, Holder holder) {
+    private String name;
+
+    public ThreadController(int tasksCount, int pointsCount, Holder holder, String name) {
         if (pointsCount <= 0 || tasksCount <= 0) throw new IllegalArgumentException();
         this.tasksCount = tasksCount;
         this.pointsCount = pointsCount;
         this.holder = holder;
+        this.name = name;
         executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
@@ -23,11 +26,12 @@ public class ThreadController {
         try {
             for (int i = 0; i < tasksCount; i++) {
                 executorService.execute(() -> {
-                    MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount);
+                    MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount,
+                            name);
                     try {
-                        finder.addInternalPointsCount(holder);
+                        finder.addInternalPointsCount(holder,pointsCount);
                     } catch (InterruptedException e) {
-                        System.out.println(e.getMessage() + "прерван");
+                        System.out.println(e.getMessage() + " прерван");
                     }
                 });
             }
