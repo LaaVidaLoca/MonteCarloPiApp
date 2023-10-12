@@ -2,13 +2,15 @@ package Holder;
 
 public class LazyHolder extends Holder{
 
-    private static volatile LazyHolder instance;
+    private  volatile LazyHolder instance;
 
-    private LazyHolder() {}
-
-    public static synchronized LazyHolder getInstance() {
+    public LazyHolder getInstance() {
         if (instance == null) {
-            instance = new LazyHolder();
+            synchronized (this) {
+                if (instance == null) {
+                    instance = new LazyHolder();
+                }
+            }
         }
         return instance;
     }
