@@ -6,7 +6,7 @@ public class Runner {
     private static final int TASK_COUNT = 5;
     private static final int POINTS_COUNT = 10000000;
     public static void main(String[] args) {
-        ThreadController controller1 = new ThreadController(TASK_COUNT, POINTS_COUNT, new LazyHolder().getInstance());
+        ThreadController controller1 = new ThreadController(TASK_COUNT, POINTS_COUNT, LazyHolder.getInstance());
         controller1.startTasks();
         ThreadController controller2 = new ThreadController(TASK_COUNT, POINTS_COUNT, EagerHolder.INSTANCE);
         controller2.startTasks();

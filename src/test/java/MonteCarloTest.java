@@ -11,7 +11,7 @@ public class MonteCarloTest {
 
    @Test
     public void test() {
-       ThreadController controller1 = new ThreadController(TASK_COUNT, POINTS_COUNT,new LazyHolder().getInstance());
+       ThreadController controller1 = new ThreadController(TASK_COUNT, POINTS_COUNT,LazyHolder.getInstance());
        controller1.startTasks();
        ThreadController controller2 = new ThreadController(TASK_COUNT, POINTS_COUNT, EagerHolder.INSTANCE);
        controller2.startTasks();
