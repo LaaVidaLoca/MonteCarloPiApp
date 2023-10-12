@@ -3,6 +3,7 @@ import Holder.Holder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class ThreadController {
     private final static int THREAD_POOL_SIZE = 5;
@@ -42,7 +43,7 @@ public class ThreadController {
 
     public double getResult() {
         try {
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            executorService.awaitTermination(5, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             System.out.println("Основной поток прерван");
         }
