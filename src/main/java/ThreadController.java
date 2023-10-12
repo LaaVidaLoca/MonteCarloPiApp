@@ -11,7 +11,7 @@ public class ThreadController {
     private final Holder holder;
     private final ExecutorService executorService;
 
-    private String name;
+    private final String name;
 
     public ThreadController(int tasksCount, int pointsCount, Holder holder, String name) {
         if (pointsCount <= 0 || tasksCount <= 0) throw new IllegalArgumentException();
