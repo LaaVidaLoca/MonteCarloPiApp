@@ -1,6 +1,7 @@
 import Holder.Holder;
 
 import java.util.Random;
+import Holder.LazyHolder;
 
 public class MonteCarloPiFinder {
 
@@ -12,18 +13,18 @@ public class MonteCarloPiFinder {
         this.poolName = poolName;
     }
 
-    public void addInternalPointsCount(Holder holder, int allPoints) throws InterruptedException {
+    public void addInternalPointsCount(int allPoints) throws InterruptedException {
         Random random = new Random();
         int message = allPoints / 10;
         int progress;
         for (int i = 0; i < pointsCount; i++) {
             if (Thread.interrupted()) throw new InterruptedException(Thread.currentThread().getName());
-            progress = holder.incrementAndGetProgress();
+            progress = LazyHolder.getInstance().incrementAndGetProgress();
             if (progress % message == 0) {
                 System.out.println("Прогресс " + poolName + ": " + ((float) progress/allPoints*100) + "%");
             }
             if (Math.pow(random.nextDouble(),2)
-                    + Math.pow(random.nextDouble(),2) <= 1) holder.increment();
+                    + Math.pow(random.nextDouble(),2) <= 1) LazyHolder.getInstance().increment();
         }
     }
 }

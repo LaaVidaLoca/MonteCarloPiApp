@@ -3,22 +3,20 @@ import Holder.Holder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import Holder.LazyHolder;
 
 public class ThreadController {
     private final static int THREAD_POOL_SIZE = 5;
     private final int tasksCount;
     private final int pointsCount;
-    private final Holder holder;
     private final ExecutorService executorService;
 
     private final String name;
 
-    public ThreadController(int tasksCount, int pointsCount, Holder holder, String name) {
+    public ThreadController(int tasksCount, int pointsCount, String name) {
         if (pointsCount <= 0 || tasksCount <= 0) throw new IllegalArgumentException();
         this.tasksCount = tasksCount;
         this.pointsCount = pointsCount;
-        this.holder = holder;
         this.name = name;
         executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
@@ -30,7 +28,7 @@ public class ThreadController {
                     MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount,
                             name);
                     try {
-                        finder.addInternalPointsCount(holder,pointsCount);
+                        finder.addInternalPointsCount(pointsCount);
                     } catch (InterruptedException e) {
                         System.out.println(e.getMessage() + " прерван");
                     }
@@ -41,12 +39,9 @@ public class ThreadController {
         }
     }
 
-    public double getResult() {
-        try {
-            executorService.awaitTermination(5, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            System.out.println("Основной поток прерван");
-        }
-        return (double) holder.getResult() / pointsCount * 4;
+    public double getResult() throws InterruptedException, IllegalStateException {
+            boolean terminationResult = executorService.awaitTermination(5, TimeUnit.MINUTES);
+            if (!terminationResult) throw new IllegalStateException("Превышено время ожидания");
+        return (double) LazyHolder.getInstance().getResult() / pointsCount * 4;
     }
 }
