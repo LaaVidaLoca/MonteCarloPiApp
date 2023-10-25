@@ -9,6 +9,7 @@ public class LazyHolder extends Holder{
     private synchronized static void init() {
         if (instance == null) {
             instance = new LazyHolder();
+            System.out.println("Ленивое хранилище инициализировано");
         }
     }
 
