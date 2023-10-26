@@ -1,10 +1,10 @@
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+
 import holder.LazyHolder;
 
 public class ThreadController {
-    private final static int THREAD_POOL_SIZE = 5;
+
+    private static final int SEMAPHORE_PERMITS = 3;
     private final int tasksCount;
     private final int pointsCount;
     private final ExecutorService executorService;
@@ -16,19 +16,30 @@ public class ThreadController {
         this.tasksCount = tasksCount;
         this.pointsCount = pointsCount;
         this.name = name;
-        executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        executorService = Executors.newCachedThreadPool();
     }
 
     public void startTasks() {
+        Semaphore semaphore = new Semaphore(SEMAPHORE_PERMITS);
+        CountDownLatch latch = new CountDownLatch(tasksCount);
         try {
             for (int i = 0; i < tasksCount; i++) {
                 executorService.execute(() -> {
-                    MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount,
-                            name);
                     try {
+                        semaphore.acquire();
+                        TaskCountObserver.inc();
+                        MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount, name);
                         finder.addInternalPointsCount(pointsCount);
+                        TaskCountObserver.dec();
+                        semaphore.release();
+                        latch.countDown();
+                        double start = System.currentTimeMillis();
+                        latch.await();
+                        double stop = System.currentTimeMillis();
+                        System.out.println(Thread.currentThread().getName()
+                                + " опередил общее вычисленин на " + (stop - start));
                     } catch (InterruptedException e) {
-                        System.out.println(e.getMessage() + " прерван");
+                        System.out.println(Thread.currentThread().getName() + " прерван");
                     }
                 });
             }

@@ -1,6 +1,6 @@
 public class Runner {
 
-    private static final int TASK_COUNT = 5;
+    private static final int TASK_COUNT = 10;
     private static final int POINTS_COUNT = 10000000;
     public static void main(String[] args) {
         ThreadController controller = new ThreadController(

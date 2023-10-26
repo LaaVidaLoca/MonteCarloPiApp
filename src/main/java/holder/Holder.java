@@ -1,18 +1,29 @@
 package holder;
 
-public class Holder {
+import java.util.concurrent.locks.ReentrantLock;
 
+public class Holder {
+    ReentrantLock lock = new ReentrantLock();
     private volatile int body = 0;
     private volatile int progress = 0;
-    public synchronized void increment() {
+    public  void increment() {
+        lock.lock();
         body++;
+        lock.unlock();
     }
-    public synchronized int incrementAndGetProgress () {
-        return ++progress;
+    public  int incrementAndGetProgress () {
+        lock.lock();
+        int result = ++progress;
+        lock.unlock();
+        return result;
+
     }
 
-    public synchronized int getResult() {
-        return body;
-    }
+    public int getResult() {
+        lock.lock();
+        int result = body;
+        lock.unlock();
+        return result;
 
+    }
 }

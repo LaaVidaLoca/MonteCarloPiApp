@@ -19,7 +19,8 @@ public class MonteCarloPiFinder {
             if (Thread.interrupted()) throw new InterruptedException(Thread.currentThread().getName());
             progress = LazyHolder.getInstance().incrementAndGetProgress();
             if (progress % message == 0) {
-                System.out.println("Прогресс " + poolName + ": " + ((float) progress/allPoints*100) + "%");
+                System.out.println("Прогресс " + poolName + ": " + ((float) progress/allPoints*100) + "%"
+                + "\nАктивных задач: " + TaskCountObserver.getActiveCount());
             }
             if (Math.pow(random.nextDouble(),2)
                     + Math.pow(random.nextDouble(),2) <= 1) LazyHolder.getInstance().increment();
