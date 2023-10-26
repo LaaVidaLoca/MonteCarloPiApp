@@ -1,4 +1,4 @@
-package Holder;
+package holder;
 
 public class LazyHolder extends Holder{
 

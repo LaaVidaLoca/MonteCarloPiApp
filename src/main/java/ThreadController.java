@@ -1,9 +1,7 @@
-import Holder.Holder;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import Holder.LazyHolder;
+import holder.LazyHolder;
 
 public class ThreadController {
     private final static int THREAD_POOL_SIZE = 5;

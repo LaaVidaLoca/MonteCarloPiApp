@@ -1,7 +1,5 @@
-import Holder.Holder;
-
 import java.util.Random;
-import Holder.LazyHolder;
+import holder.LazyHolder;
 
 public class MonteCarloPiFinder {
 
