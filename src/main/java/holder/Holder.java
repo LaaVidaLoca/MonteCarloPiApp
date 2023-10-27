@@ -4,8 +4,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Holder {
     ReentrantLock lock = new ReentrantLock();
-    private volatile int body = 0;
-    private volatile int progress = 0;
+    private int body = 0;
+    private int progress = 0;
     public  void increment() {
         lock.lock();
         body++;
