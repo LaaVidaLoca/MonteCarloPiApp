@@ -26,12 +26,15 @@ public class ThreadController {
             for (int i = 0; i < tasksCount; i++) {
                 executorService.execute(() -> {
                     try {
-                        semaphore.acquire();
-                        TaskCountObserver.inc();
-                        MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount/tasksCount, name);
-                        finder.addInternalPointsCount(pointsCount);
-                        TaskCountObserver.dec();
-                        semaphore.release();
+                        try {
+                            semaphore.acquire();
+                            TaskCountObserver.inc();
+                            MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount / tasksCount, name);
+                            finder.addInternalPointsCount(pointsCount);
+                            TaskCountObserver.dec();
+                        } finally {
+                            semaphore.release();
+                        }
                         latch.countDown();
                         double start = System.currentTimeMillis();
                         latch.await();
