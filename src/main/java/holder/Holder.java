@@ -7,23 +7,29 @@ public class Holder {
     private int body = 0;
     private int progress = 0;
     public  void increment() {
-        lock.lock();
-        body++;
-        lock.unlock();
+        try {
+            lock.lock();
+            body++;
+        } finally {
+            lock.unlock();
+        }
     }
     public  int incrementAndGetProgress () {
-        lock.lock();
-        int result = ++progress;
-        lock.unlock();
-        return result;
-
+        try {
+            lock.lock();
+            return ++progress;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public int getResult() {
-        lock.lock();
-        int result = body;
-        lock.unlock();
-        return result;
+        try {
+            lock.lock();
+            return body;
+        } finally {
+            lock.unlock();
 
+        }
     }
 }
