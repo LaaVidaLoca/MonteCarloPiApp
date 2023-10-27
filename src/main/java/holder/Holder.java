@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Holder {
     ReentrantLock lock = new ReentrantLock();
-    private int body = 0;
+    private  int body = 0;
     private int progress = 0;
     public  void increment() {
         try {

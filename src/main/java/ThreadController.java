@@ -31,8 +31,8 @@ public class ThreadController {
                             TaskCountObserver.inc();
                             MonteCarloPiFinder finder = new MonteCarloPiFinder(pointsCount / tasksCount, name);
                             finder.addInternalPointsCount(pointsCount);
-                            TaskCountObserver.dec();
                         } finally {
+                            TaskCountObserver.dec();
                             semaphore.release();
                         }
                         latch.countDown();
