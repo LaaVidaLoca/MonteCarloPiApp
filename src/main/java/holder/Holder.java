@@ -1,15 +1,19 @@
 package holder;
 
+import synchronizer.CustomLock;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Holder {
-    ReentrantLock lock = new ReentrantLock();
+    CustomLock lock = new CustomLock();
     private  int body = 0;
     private int progress = 0;
     public  void increment() {
         try {
             lock.lock();
             body++;
+        } catch (InterruptedException e) {
+            throw new IllegalArgumentException(e);
         } finally {
             lock.unlock();
         }
@@ -18,6 +22,8 @@ public class Holder {
         try {
             lock.lock();
             return ++progress;
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
         } finally {
             lock.unlock();
         }
@@ -27,9 +33,11 @@ public class Holder {
         try {
             lock.lock();
             return body;
-        } finally {
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+        finally {
             lock.unlock();
-
         }
     }
 }

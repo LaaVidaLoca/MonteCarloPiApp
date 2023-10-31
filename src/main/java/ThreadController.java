@@ -1,6 +1,8 @@
 import java.util.concurrent.*;
 
 import holder.LazyHolder;
+import synchronizer.CustomLatch;
+import synchronizer.CustomSemaphore;
 
 public class ThreadController {
 
@@ -20,8 +22,8 @@ public class ThreadController {
     }
 
     public void startTasks() {
-        Semaphore semaphore = new Semaphore(SEMAPHORE_PERMITS);
-        CountDownLatch latch = new CountDownLatch(tasksCount);
+        CustomSemaphore semaphore = new CustomSemaphore(SEMAPHORE_PERMITS);
+        CustomLatch latch = new CustomLatch(tasksCount);
         try {
             for (int i = 0; i < tasksCount; i++) {
                 executorService.execute(() -> {

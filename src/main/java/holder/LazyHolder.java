@@ -1,23 +1,26 @@
 package holder;
 
 import java.util.concurrent.locks.ReentrantLock;
+import synchronizer.CustomLock;
 
 public class LazyHolder extends Holder{
 
-    private static volatile LazyHolder instance;
-    static ReentrantLock lock = new ReentrantLock();
+    private volatile static LazyHolder instance;
+    private static final CustomLock lock = new CustomLock();
 
     private LazyHolder() {}
 
     private static void init() {
-        if (instance == null) {
-            try {
-                lock.lock();
-            } finally {
+        try {
+            lock.lock();
+            if (instance == null) {
                 instance = new LazyHolder();
                 System.out.println("Ленивое хранилище инициализировано");
-                lock.unlock();
             }
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        } finally {
+            lock.unlock();
         }
     }
 
