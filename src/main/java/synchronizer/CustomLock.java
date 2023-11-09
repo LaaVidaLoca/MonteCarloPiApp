@@ -20,4 +20,14 @@ public class CustomLock {
         lock = false;
         notifyAll();
     }
+
+    public synchronized boolean tryLock() {
+        if (lock) {
+            return false;
+        } else {
+            lock = true;
+            return true;
+        }
+    }
+
 }
