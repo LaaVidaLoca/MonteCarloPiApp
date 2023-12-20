@@ -50,6 +50,22 @@ public class MonteCarloTest {
        }
    }
 
+   @Test
+    public void latchAwaitTest() throws InterruptedException {
+        CustomLatch latch = new CustomLatch(1);
+       executorService.execute(() -> {
+           try {
+               latch.await();
+               System.out.println("освобождение");
+           } catch (InterruptedException e) {
+               throw new IllegalStateException(e);
+           }
+       });
+       Thread.sleep(100);
+       executorService.execute(latch::countDown);
+       executorService.shutdown();
+       executorService.awaitTermination(5, TimeUnit.MINUTES);
+    }
 
    @Test
     public void customLatchTestTryAwait() {

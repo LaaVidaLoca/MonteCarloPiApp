@@ -1,5 +1,7 @@
 package synchronizer;
 
+import java.util.concurrent.TimeUnit;
+
 public class CustomSemaphore {
     private volatile int permits;
 
@@ -20,6 +22,16 @@ public class CustomSemaphore {
         if (this.permits < permits) {
             return false;
         }   else {
+            this.permits-=permits;
+            return true;
+        }
+    }
+
+    public synchronized boolean tryAcquire(int permits, long timeout) throws InterruptedException {
+        if (this.permits < permits) {
+            wait(timeout);
+            return this.permits >= permits;
+        } else {
             this.permits-=permits;
             return true;
         }

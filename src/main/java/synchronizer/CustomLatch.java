@@ -10,13 +10,14 @@ public class CustomLatch {
 
     public synchronized void countDown() {
         count--;
+        if (count == 0) {
+            notifyAll();
+        }
     }
 
     public synchronized void await() throws InterruptedException {
-        if (count > 0) {
+        while (count > 0) {
             wait();
-        } else {
-            notifyAll();
         }
     }
 
